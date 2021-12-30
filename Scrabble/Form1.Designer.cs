@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Scrabble));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.change_button = new System.Windows.Forms.Button();
+            this.reset_button = new System.Windows.Forms.Button();
+            this.accept_button = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,11 +46,42 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.LightBlue;
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
+            this.panel1.Controls.Add(this.change_button);
+            this.panel1.Controls.Add(this.reset_button);
+            this.panel1.Controls.Add(this.accept_button);
             this.panel1.Controls.Add(this.tableLayoutPanel1);
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(950, 950);
             this.panel1.TabIndex = 0;
+            // 
+            // change_button
+            // 
+            this.change_button.Location = new System.Drawing.Point(827, 845);
+            this.change_button.Name = "change_button";
+            this.change_button.Size = new System.Drawing.Size(75, 23);
+            this.change_button.TabIndex = 3;
+            this.change_button.Text = "Wymiana";
+            this.change_button.UseVisualStyleBackColor = true;
+            // 
+            // reset_button
+            // 
+            this.reset_button.Location = new System.Drawing.Point(827, 891);
+            this.reset_button.Name = "reset_button";
+            this.reset_button.Size = new System.Drawing.Size(75, 23);
+            this.reset_button.TabIndex = 2;
+            this.reset_button.Text = "Reset";
+            this.reset_button.UseVisualStyleBackColor = true;
+            // 
+            // accept_button
+            // 
+            this.accept_button.Location = new System.Drawing.Point(827, 803);
+            this.accept_button.Name = "accept_button";
+            this.accept_button.Size = new System.Drawing.Size(75, 23);
+            this.accept_button.TabIndex = 1;
+            this.accept_button.Text = "Zaakceptuj";
+            this.accept_button.UseVisualStyleBackColor = true;
+            this.accept_button.MouseClick += new System.Windows.Forms.MouseEventHandler(this.accept_button_MouseClick);
             // 
             // tableLayoutPanel1
             // 
@@ -157,6 +191,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button change_button;
+        private System.Windows.Forms.Button reset_button;
+        private System.Windows.Forms.Button accept_button;
     }
 }
 
