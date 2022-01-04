@@ -63,6 +63,7 @@
             this.change_button.TabIndex = 3;
             this.change_button.Text = "Wymiana";
             this.change_button.UseVisualStyleBackColor = true;
+            this.change_button.Click += new System.EventHandler(this.change_button_Click);
             // 
             // reset_button
             // 
@@ -72,6 +73,7 @@
             this.reset_button.TabIndex = 2;
             this.reset_button.Text = "Reset";
             this.reset_button.UseVisualStyleBackColor = true;
+            this.reset_button.Click += new System.EventHandler(this.reset_button_Click);
             // 
             // accept_button
             // 

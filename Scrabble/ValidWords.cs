@@ -22,11 +22,24 @@ namespace Scrabble
         {
             Words = new List<string>();
 
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"src\slowa.txt");
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"slowa.txt");
             foreach (var w in File.ReadAllLines(path))
             {
                 Words.Add(w);
             }
+        }
+
+        public bool CheckValidation(List<string> words_on_board)
+        {
+            foreach(var word in words_on_board)
+            {
+                if (!Words.Contains(word))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
