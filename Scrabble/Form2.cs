@@ -52,16 +52,30 @@ namespace Scrabble
             this.Hide();
             Scrabble scrabble = new Scrabble();
             scrabble.ShowDialog();
+            this.Close();
         }
 
         private void btnRules_MouseClick(object sender, MouseEventArgs e)
         {
-
+            btnStart.Visible = false;
+            btnExit.Visible = false;
+            btnRules.Visible = false;
+            btnBackToMenu.Visible = true;
+            BackgroundImage = Properties.Resources.rules;
         }
 
         private void btnExit_MouseClick(object sender, MouseEventArgs e)
         {
             this.Close();
+        }
+
+        private void btnBackToMenu_Click(object sender, EventArgs e)
+        {
+            btnStart.Visible = true;
+            btnExit.Visible = true;
+            btnRules.Visible = true;
+            btnBackToMenu.Visible = false;
+            BackgroundImage = Properties.Resources.menu_border_new;
         }
     }
 }

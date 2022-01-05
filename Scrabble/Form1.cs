@@ -10,8 +10,6 @@ using System.Windows.Forms;
 using Scrabble;
 
 //TODO
-//game over
-//menu
 //popup windows
 
 namespace Scrabble
@@ -44,7 +42,7 @@ namespace Scrabble
             InitializeComponent();
             letters_pool = player1.fill_hand(letters_pool);
             letters_pool = player2.fill_hand(letters_pool);
-            
+
             game(player1, player2);
         }
 
@@ -70,7 +68,10 @@ namespace Scrabble
 
         public void turn(List<Label> player1Rack, List<Label> player2Rack)
         {
-            game_over = b.gameOver(letters_pool);
+            if(b.gameOver(letters_pool) == false & player1.isGameOver() == false & player2.isGameOver() == false) game_over = false;
+            else game_over = true;
+
+            if(game_over == true) this.Close();
 
             if (game_over == false)
             {
@@ -80,6 +81,7 @@ namespace Scrabble
                     colorTilesFromHand(player1Rack);
                     hideRack(player1Rack, player2Rack);
                     placeRack(player1Rack, player2Rack);
+                    whose_turn.Text = "Ruch gracza 1";
                     //placeTilesFromLetters(player1Rack);
                 }
 
@@ -89,12 +91,10 @@ namespace Scrabble
                     colorTilesFromHand(player2Rack);
                     hideRack(player1Rack, player2Rack);
                     placeRack(player1Rack, player2Rack);
+                    whose_turn.Text = "Ruch gracza 2";
                     //placeTilesFromLetters(player2Rack);
                 }
             }
-
-            else;
-
         }
 
         //kto startuje?
@@ -423,8 +423,6 @@ namespace Scrabble
                     clickedLabel.BringToFront();
                 }
             }
-
-            else;
         }
 
 
@@ -476,15 +474,36 @@ namespace Scrabble
             
 
             bool valid;
+
             wordsList = b.createWordsFromTable();
 
             valid = v.CheckValidation(wordsList);
 
+            int scoreThisTurn = 0;
+
             if (valid)
             {
-                if(player1.current_turn == true) player1_score += s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
-                else player2_score += s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
+                if (player1.current_turn == true & lenght_of_word != 0)
+                {
+                    scoreThisTurn = s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
+                    player1_score += scoreThisTurn;
+                    eventLabel.Text = eventLabel.Text + "\nGracz1 zdobył " + scoreThisTurn.ToString() + " punktów!";
+                }
+
+                else if (player1.current_turn == false & lenght_of_word != 0)
+                {
+                    scoreThisTurn = s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
+                    player2_score += scoreThisTurn;
+                    eventLabel.Text = eventLabel.Text + "\nGracz2 zdobył " + scoreThisTurn.ToString() + " punktów!";
+                }
+                //player2_score += s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
                 previousWordsList = wordsList.ToList();
+            }
+
+            if (!valid)
+            {
+                if (player1.current_turn == true) eventLabel.Text = eventLabel.Text + "\nGracz1 traci ruch!";
+                else eventLabel.Text = eventLabel.Text + "\nGracz2 traci ruch!";
             }
 
             if(player1.current_turn) lScorePlayer1.Text = player1_score.ToString();
@@ -505,11 +524,42 @@ namespace Scrabble
 
             valid = isValid();
 
+            if (change == true)
+            {
+                int counter = 0;
+
+
+                if (player1.current_turn == true)
+                {
+                    foreach (Label item in player1Rack)
+                    {
+                        if (item.Visible == false) counter++;
+                    }
+
+                    eventLabel.Text = eventLabel.Text + "\nGracz 1 wymienia " + counter + " literke(i)!";
+                }
+
+                else
+                {
+                    foreach (Label item in player2Rack)
+                    {
+                        if (item.Visible == false) counter++;
+                    }
+
+                    eventLabel.Text = eventLabel.Text + "\nGracz 2 wymienia " + counter + " literke(i)!";
+                }
+            }
 
             if (player1.current_turn == true)
             {
                 player1.current_turn = false;
                 player2.current_turn = true;
+
+                if (lenght_of_word == 0 & change == false)
+                {
+                    player1.passCounter();
+                    eventLabel.Text = eventLabel.Text + "\nGracz 1 pasuje!";
+                }
 
                 if(valid == true)
                 {
@@ -526,7 +576,13 @@ namespace Scrabble
                 player1.current_turn = true;
                 player2.current_turn = false;
 
-                if(valid == true)
+                if (lenght_of_word == 0 & change == false)
+                {
+                    player2.passCounter();
+                    eventLabel.Text = eventLabel.Text + "\nGracz 2 pasuje!";
+                }
+
+                if (valid == true)
                 {
                     foreach (Label item in player2Rack)
                     {
@@ -538,6 +594,8 @@ namespace Scrabble
 
             //swapPlayers();
             
+
+
             lenght_of_word = 0;
             change = false;
 
@@ -579,6 +637,7 @@ namespace Scrabble
             newWord.Clear();
             lenght_of_word = 0;
             hand_tile_clicked = false;
+            change = false;
 
             if(player1.current_turn == true)
             {

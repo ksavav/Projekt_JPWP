@@ -31,9 +31,11 @@
             this.btnStart = new System.Windows.Forms.PictureBox();
             this.btnExit = new System.Windows.Forms.PictureBox();
             this.btnRules = new System.Windows.Forms.PictureBox();
+            this.btnBackToMenu = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.btnStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRules)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBackToMenu)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -75,6 +77,17 @@
             this.btnRules.MouseLeave += new System.EventHandler(this.btnRules_MouseLeave);
             this.btnRules.MouseHover += new System.EventHandler(this.btnRules_MouseHover);
             // 
+            // btnBackToMenu
+            // 
+            this.btnBackToMenu.BackgroundImage = global::Scrabble.Properties.Resources.back_to_menu;
+            this.btnBackToMenu.Location = new System.Drawing.Point(12, 12);
+            this.btnBackToMenu.Name = "btnBackToMenu";
+            this.btnBackToMenu.Size = new System.Drawing.Size(89, 30);
+            this.btnBackToMenu.TabIndex = 3;
+            this.btnBackToMenu.TabStop = false;
+            this.btnBackToMenu.Visible = false;
+            this.btnBackToMenu.Click += new System.EventHandler(this.btnBackToMenu_Click);
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -82,6 +95,7 @@
             this.BackgroundImage = global::Scrabble.Properties.Resources.menu_border_new;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(684, 461);
+            this.Controls.Add(this.btnBackToMenu);
             this.Controls.Add(this.btnRules);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnStart);
@@ -89,10 +103,12 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Menu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
             ((System.ComponentModel.ISupportInitialize)(this.btnStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnRules)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnBackToMenu)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -102,5 +118,6 @@
         private System.Windows.Forms.PictureBox btnStart;
         private System.Windows.Forms.PictureBox btnExit;
         private System.Windows.Forms.PictureBox btnRules;
+        private System.Windows.Forms.PictureBox btnBackToMenu;
     }
 }

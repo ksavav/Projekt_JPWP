@@ -63,6 +63,16 @@ namespace Scrabble.Properties {
         /// <summary>
         ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap back_to_menu {
+            get {
+                object obj = ResourceManager.GetObject("back_to_menu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap background {
             get {
                 object obj = ResourceManager.GetObject("background", resourceCulture);
@@ -76,6 +86,16 @@ namespace Scrabble.Properties {
         internal static System.Drawing.Bitmap menu_border_new {
             get {
                 object obj = ResourceManager.GetObject("menu_border_new", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rules {
+            get {
+                object obj = ResourceManager.GetObject("rules", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

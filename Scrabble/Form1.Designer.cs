@@ -35,11 +35,13 @@
             this.accept_button = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lScorePlayer2 = new System.Windows.Forms.Label();
+            this.lScorePlayer1 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lScorePlayer1 = new System.Windows.Forms.Label();
-            this.lScorePlayer2 = new System.Windows.Forms.Label();
+            this.whose_turn = new System.Windows.Forms.Label();
+            this.eventLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -48,6 +50,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.LightBlue;
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
+            this.panel1.Controls.Add(this.whose_turn);
             this.panel1.Controls.Add(this.change_button);
             this.panel1.Controls.Add(this.reset_button);
             this.panel1.Controls.Add(this.accept_button);
@@ -141,6 +144,26 @@
             this.panel2.Size = new System.Drawing.Size(262, 180);
             this.panel2.TabIndex = 1;
             // 
+            // lScorePlayer2
+            // 
+            this.lScorePlayer2.AutoSize = true;
+            this.lScorePlayer2.Font = new System.Drawing.Font("Calibri", 15F);
+            this.lScorePlayer2.Location = new System.Drawing.Point(178, 123);
+            this.lScorePlayer2.Name = "lScorePlayer2";
+            this.lScorePlayer2.Size = new System.Drawing.Size(20, 24);
+            this.lScorePlayer2.TabIndex = 4;
+            this.lScorePlayer2.Text = "0";
+            // 
+            // lScorePlayer1
+            // 
+            this.lScorePlayer1.AutoSize = true;
+            this.lScorePlayer1.Font = new System.Drawing.Font("Calibri", 15F);
+            this.lScorePlayer1.Location = new System.Drawing.Point(56, 123);
+            this.lScorePlayer1.Name = "lScorePlayer1";
+            this.lScorePlayer1.Size = new System.Drawing.Size(20, 24);
+            this.lScorePlayer1.TabIndex = 3;
+            this.lScorePlayer1.Text = "0";
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -171,38 +194,44 @@
             this.label1.Text = "Wynik: ";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lScorePlayer1
+            // whose_turn
             // 
-            this.lScorePlayer1.AutoSize = true;
-            this.lScorePlayer1.Font = new System.Drawing.Font("Calibri", 15F);
-            this.lScorePlayer1.Location = new System.Drawing.Point(56, 123);
-            this.lScorePlayer1.Name = "lScorePlayer1";
-            this.lScorePlayer1.Size = new System.Drawing.Size(20, 24);
-            this.lScorePlayer1.TabIndex = 3;
-            this.lScorePlayer1.Text = "0";
+            this.whose_turn.AutoSize = true;
+            this.whose_turn.Font = new System.Drawing.Font("Comic Sans MS", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.whose_turn.Location = new System.Drawing.Point(400, 4);
+            this.whose_turn.Name = "whose_turn";
+            this.whose_turn.Size = new System.Drawing.Size(140, 29);
+            this.whose_turn.TabIndex = 4;
+            this.whose_turn.Text = "Ruch gracza ";
+            this.whose_turn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lScorePlayer2
+            // eventLabel
             // 
-            this.lScorePlayer2.AutoSize = true;
-            this.lScorePlayer2.Font = new System.Drawing.Font("Calibri", 15F);
-            this.lScorePlayer2.Location = new System.Drawing.Point(178, 123);
-            this.lScorePlayer2.Name = "lScorePlayer2";
-            this.lScorePlayer2.Size = new System.Drawing.Size(20, 24);
-            this.lScorePlayer2.TabIndex = 4;
-            this.lScorePlayer2.Text = "0";
+            this.eventLabel.BackColor = System.Drawing.Color.Azure;
+            this.eventLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.eventLabel.Font = new System.Drawing.Font("Comic Sans MS", 12F);
+            this.eventLabel.Location = new System.Drawing.Point(981, 243);
+            this.eventLabel.Name = "eventLabel";
+            this.eventLabel.Size = new System.Drawing.Size(262, 330);
+            this.eventLabel.TabIndex = 2;
+            this.eventLabel.Text = " ";
+            this.eventLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // Scrabble
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 985);
+            this.Controls.Add(this.eventLabel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Scrabble";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Scrabble";
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -222,6 +251,8 @@
         private System.Windows.Forms.Button accept_button;
         private System.Windows.Forms.Label lScorePlayer2;
         private System.Windows.Forms.Label lScorePlayer1;
+        private System.Windows.Forms.Label whose_turn;
+        private System.Windows.Forms.Label eventLabel;
     }
 }
 

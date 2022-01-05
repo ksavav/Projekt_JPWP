@@ -13,6 +13,7 @@ namespace Scrabble
     public class Player
     {
         int max_letters = 7;
+        int pass = 0;
         
         //public string letters_pool = "AAAAAAAAAĄBBCCCĆDDDEEEEEEEĘFGGHHIIIIIIIIJJKKKLLLŁŁMMMNNNNNŃOOOOOOÓPPPRRRRSSSSŚTTTUUWWWWYYYYZZZZZŹŻ";
         public bool current_turn;              //czy pierwszy ruch?
@@ -56,31 +57,52 @@ namespace Scrabble
 
         public char[] refill_hand(List<Label> playerRack, char[] letters_pool)
         {
+
             Random rnd = new Random();
             int temp;
             int i = 0;
 
-            foreach (Label label in playerRack)
+            try
             {
-                if(label.Text == "used")
+                foreach (Label label in playerRack)
                 {
-                    temp = rnd.Next(letters_pool.Length);
+                    if (label.Text == "used")
+                    {
+                        temp = rnd.Next(letters_pool.Length);
 
-                    while (letters_pool[temp] == '\0') temp = rnd.Next(letters_pool.Length);
+                        while (letters_pool[temp] == '\0') temp = rnd.Next(letters_pool.Length);
 
-                    letters[i] = letters_pool[temp];
-                    letters_pool[temp] = '\0';
+                        letters[i] = letters_pool[temp];
+                        letters_pool[temp] = '\0';
 
-                    
-                    //letters_pool = letters_pool.Remove(temp);
-                    //letters_pool.Remove(letters_pool[temp]);
-                    label.Text = letters[i].ToString();
+
+                        //letters_pool = letters_pool.Remove(temp);
+                        //letters_pool.Remove(letters_pool[temp]);
+                        label.Text = letters[i].ToString();
+                    }
+
+                    i++;
                 }
-
-                i++;
             }
 
+            catch
+            {
+
+            }
+            
+
             return letters_pool;
+        }
+
+        public int passCounter()
+        {
+            return pass++;
+        }
+
+        public bool isGameOver()
+        {
+            if(pass >= 3) return true;
+            return false;
         }
     }
 }
