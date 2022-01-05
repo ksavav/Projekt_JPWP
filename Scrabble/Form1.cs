@@ -7,33 +7,98 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Scrabble;
+
+//TODO
+//game over
+//menu
+//popup windows
 
 namespace Scrabble
 {
     public partial class Scrabble : Form
     {
+        //zmienne globalne
+        public static char[] letters_pool = { 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'Ą', 'B', 'B', 'C', 'C', 'C', 'Ć', 'D', 'D', 'D', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'Ę', 'F', 'G', 'G', 
+            'H', 'H', 'I', 'I', 'I', 'I', 'I', 'I', 'I', 'I', 'J', 'J', 'K', 'K', 'K', 'L', 'L', 'L', 'Ł', 'Ł', 'M', 'M', 'M', 'N', 'N', 'N', 'N', 'N', 'Ń', 'O', 'O', 'O', 'O', 'O', 'O',
+            'Ó', 'P', 'P', 'P', 'R', 'R', 'R', 'R', 'S', 'S', 'S', 'S', 'Ś', 'T', 'T', 'T', 'U', 'U', 'W', 'W', 'W', 'W', 'Y', 'Y', 'Y', 'Y', 'Z', 'Z', 'Z', 'Z', 'Z', 'Ź', 'Ż' };
+
+        Label temp = new Label();
+        Board b = new Board();
+        ValidWords v = new ValidWords();
+        Player player1 = new Player(letters_pool);
+        Player player2 = new Player(letters_pool);
+        Score s = new Score(); 
+        List<Label> BoardLabels = new List<Label>();
         bool game_over = false;
+        bool hand_tile_clicked = false;
+        bool change = false;
+        int lenght_of_word = 0;
+        int word_counter = 0;
+        int player1_score = 0;
+        int player2_score = 0;
+        
+
         public Scrabble()
         {
             InitializeComponent();
-            CreatePlayers();
+            letters_pool = player1.fill_hand(letters_pool);
+            letters_pool = player2.fill_hand(letters_pool);
+            
+            game(player1, player2);
         }
 
-        public string letters_pool = "AAAAAAAAAĄBBCCCĆDDDEEEEEEEĘFGGHHIIIIIIIIJJKKKLLLŁŁMMMNNNNNŃOOOOOOÓPPPRRRRSSSSŚTTTUUWWWWYYYYZZZZZŹŻ";
+        List<Label> player1Rack = new List<Label>();
+        List<Label> player2Rack = new List<Label>();
+        List<Label> newWord = new List<Label>();
 
-        public void CreatePlayers()
+
+        public void game(Player player1, Player player2)
         {
-            Player player1 = new Player(letters_pool);
-            Player player2 = new Player(letters_pool);
-            //Board board = new Board();
+            whoStarts(player1, player2);
 
-            WhoStarts(player1 , player2);
-            Literki(player1, player2);
-            CreateBoard();
-            createTilesFromLetters(player1);
+            BoardLabels = createBoard(BoardLabels);
+
+
+            player1Rack = createTilesFromLetters(player1);
+            player2Rack = createTilesFromLetters(player2);
+
+
+
+            turn(player1Rack, player2Rack);
         }
 
-        public void WhoStarts(Player player1, Player player2)
+        public void turn(List<Label> player1Rack, List<Label> player2Rack)
+        {
+            game_over = b.gameOver(letters_pool);
+
+            if (game_over == false)
+            {
+                if (player1.current_turn == true)
+                {
+                    letters_pool = player1.refill_hand(player1Rack, letters_pool);
+                    colorTilesFromHand(player1Rack);
+                    hideRack(player1Rack, player2Rack);
+                    placeRack(player1Rack, player2Rack);
+                    //placeTilesFromLetters(player1Rack);
+                }
+
+                else if (player1.current_turn == false)
+                {
+                    letters_pool = player1.refill_hand(player2Rack, letters_pool);
+                    colorTilesFromHand(player2Rack);
+                    hideRack(player1Rack, player2Rack);
+                    placeRack(player1Rack, player2Rack);
+                    //placeTilesFromLetters(player2Rack);
+                }
+            }
+
+            else;
+
+        }
+
+        //kto startuje?
+        public void whoStarts(Player player1, Player player2)
         {
             Random rnd = new Random();
 
@@ -41,48 +106,68 @@ namespace Scrabble
 
             if (start == 1) //kto zaczyna
             {
-                player1.first_move = true;
-                player2.first_move = false;
+                player1.current_turn = true;
+                player2.current_turn = false;
             }
 
             else
             {
-                player1.first_move = false;
-                player2.first_move = true;
+                player1.current_turn = false;
+                player2.current_turn = true;
+                //is_player1_turn = false;
             }
         }
 
-        public void Literki(Player player1, Player player2)
+        //string posiadajacy literki na rece gracza
+        public void literki(Player player)
         {
             string text = "";
-            for(int i = 0; i < player1.letters.Length; i++)
+            for(int i = 0; i < player.letters.Length; i++)
             {
-                text = text + player1.letters[i].ToString();
+                text = text + player.letters[i].ToString();
             }
         }
 
-        public void CreateBoard()
+        //tworzenie planszy
+        public List<Label> createBoard(List<Label> BoardLabels)
         {
-            List<Label> BoardLabels = new List<Label>();
             for(int i = 0; i < 15; i++)
             {
                 for(int j = 0; j < 15; j++)
                 {
-                    BoardLabels.Add(new Label()
+                    /*BoardLabels.Add(new Label()
                     {
                         Location = new System.Drawing.Point(112 + i * 50, 52 + j * 50),
                         Name = i.ToString() + "x" + j.ToString(),
                         Size = new System.Drawing.Size(42, 42),
                         BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle,
                         TabIndex = int.Parse(i.ToString() + j.ToString()),
-                        Text = ""//i.ToString() + "x" + j.ToString()
+                        Text = "",//i.ToString() + "x" + j.ToString()
+                        
                     }) ;
+                    */
+
+                    var label = new Label();
+                    label.Location = new System.Drawing.Point(112 + i * 50, 52 + j * 50);
+                    label.Name = i.ToString() + "x" + j.ToString();
+                    label.Size = new System.Drawing.Size(42, 42);
+                    label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    label.TabIndex = int.Parse(i.ToString() + j.ToString());
+                    label.Text = "";//i.ToString() + "x" + j.ToString()
+                    label.Click += boardTile_Click;
+                    label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                    label.Font = new System.Drawing.Font("Calibri", 20F);
+                    //label.Paint += ClickedLabel_Paint;
+                    BoardLabels.Add(label);
                 }
             }
-
+            colorTiles(BoardLabels);
             placeTiles(BoardLabels);
+
+            return BoardLabels;
         }
         
+        //wyplucie planszy do Formsa
         public void placeTiles(List<Label> BoardLabels)
         {
             foreach (Label item in BoardLabels)
@@ -90,11 +175,10 @@ namespace Scrabble
                 this.Controls.Add(item);
                 item.BringToFront();
             }
-
-            ColorTiles(BoardLabels);
         }
 
-        public void ColorTiles(List<Label> BoardLabels)
+        //kolorowanie odpowiednich pol na planszy
+        public void colorTiles(List<Label> BoardLabels)
         {
             var condRed = new string[] { "0x0", "14x0", "0x14", "14x14", "0x7", "1x6", "1x8", "7x0", "6x1", "8x1", "14x7", "13x6", "13x8", "7x14", "6x13", "8x13", "7x7" };
             var condGreen = new string[] { "5x0", "4x1", "3x2", "2x3", "1x4", "0x5", "9x0", "10x1", "11x2", "12x3", "13x4", "14x5", "0x9", "1x10", "2x11", "3x12", "4x13", 
@@ -126,7 +210,7 @@ namespace Scrabble
                 {
                     item.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
                 }
-
+                
                 else if (condDouble.Contains(item.Name))
                 {
                     item.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -150,31 +234,41 @@ namespace Scrabble
             }
         }
 
-        public void createTilesFromLetters(Player player)
+        //Tworzenie reki gracza
+        public List<Label> createTilesFromLetters(Player player)
+        {
+            List<Label> list = new List<Label>();
+            for (int i = 0; i < 7; i++)
+            {
+                var label = new Label();
+                label.Location = new System.Drawing.Point(112 + 200 + i * 50, 850);
+                label.Name = "tile" + i.ToString();
+                label.Size = new System.Drawing.Size(42, 42);
+                label.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                //TabIndex = int.Parse(i.ToString() + j.ToString());
+                label.Font = new System.Drawing.Font("Calibri", 20F);
+                label.Text = player.letters[i].ToString();
+                label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+                label.Visible = false;
+                label.Click += handTile_Click;
+                
+                list.Add(label);
+            }
+
+            colorTilesFromHand(list);
+            placeTilesFromLetters(list);
+            
+            return list;
+        }
+
+        public void colorTilesFromHand(List<Label> list)
         {
             var YellowLetters = new string[] { "A", "E", "I", "N", "O", "R", "S", "W", "Z" };
             var GreenLetters = new string[] { "C", "D", "K", "L", "M", "P", "T", "Y" };
             var BlueLetters = new string[] { "B", "G", "H", "J", "Ł", "U" };
             var RedLetters = new string[] { "Ą", "Ć", "Ę", "F", "Ń", "Ó", "Ś", "Ź", "Ż" };
 
-            List<Label> list = new List<Label>();
-            for (int i = 0; i < 7; i++)
-            {
-                list.Add(new Label()
-                {
-                    Location = new System.Drawing.Point(112 + 200 + i * 50, 850),
-                    Name = "tile" + i.ToString(),
-                    Size = new System.Drawing.Size(42, 42),
-                    BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle,
-                    //TabIndex = int.Parse(i.ToString() + j.ToString()),\
-                    Font = new System.Drawing.Font("Calibri", 20F),
-                    Text = player.letters[i].ToString(),
-                    TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
-                });
-            }
-
-        
-            foreach(Label label in list)
+            foreach (Label label in list)
             {
                 if (YellowLetters.Contains(label.Text))
                 {
@@ -196,10 +290,9 @@ namespace Scrabble
                     label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
                 }
             }
-
-            placeTilesFromLetters(list);
         }
 
+        //wyplucie reki do formsa
         public void placeTilesFromLetters(List<Label> list)
         {
             foreach (Label item in list)
@@ -209,9 +302,293 @@ namespace Scrabble
             }
         }
 
-         public void tile_Click(object sender, EventArgs e)
-         {
-            var tile = (Label)sender;
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        //eventy
+
+        public void hideRack(List<Label> player1Rack, List<Label> player2Rack)
+        {
+            if(player1.current_turn == true)
+            {
+                foreach(Label label in player2Rack)
+                {
+                    label.Visible = false;
+                }
+            }
+
+            else
+            {
+                foreach (Label label in player1Rack)
+                {
+                    label.Visible = false;
+                }
+            }
+        }
+
+        public void placeRack(List<Label> player1Rack, List<Label> player2Rack)
+        {
+            if (player1.current_turn == true)
+            {
+                foreach (Label label in player1Rack)
+                {
+                    label.Visible = true;
+                }
+            }
+
+            else
+            {
+                foreach (Label label in player2Rack)
+                {
+                    label.Visible = true;
+                }
+            }
+        }
+
+        char consOrient = ' ';
+        int[] pos_x_y_1 = new int[2];
+        int[] pos_x_y_2 = new int[2];
+        List<string> usedTiles = new List<string>();
+
+        public void boardTile_Click(object sender, EventArgs e)
+        {
+            var clickedLabe = (Label)sender;
+
+            Label clickedLabel = new Label();
+
+            clickedLabel.Location = clickedLabe.Location;
+            clickedLabel.Size = clickedLabe.Size;
+            clickedLabel.Name = clickedLabe.Name;
+            clickedLabel.TextAlign = clickedLabe.TextAlign;
+
+            //[0] -> x, [1] -> y
+            int[] pos_x_y = new int[2];
+            bool valid = false;
+            temp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(204)))), ((int)(((byte)(150))))); 
+
+            if (clickedLabel != null & hand_tile_clicked == true & lenght_of_word == 0)
+            {
+                if((word_counter == 0 & clickedLabe.Name == "7x7") || (word_counter > 0 & !usedTiles.Contains(clickedLabel.Name)))
+                {
+                    //clickedLabel.BorderStyle = BorderStyle.None;
+                    pos_x_y_1 = b.stringToChar(clickedLabel.Name);
+                    clickedLabel.BackColor = temp.BackColor;
+                    clickedLabel.Text = temp.Text;
+                    clickedLabel.Font = temp.Font;
+                    clickedLabel.BackColor = temp.BackColor;
+                    clickedLabel.BorderStyle = BorderStyle.FixedSingle;
+                    hand_tile_clicked = false;
+                    lenght_of_word++;
+                    newWord.Add(clickedLabel);
+                    this.Controls.Add(clickedLabel);
+                    clickedLabel.BringToFront();
+                }
+            }
+
+            else if (clickedLabel != null & hand_tile_clicked == true & lenght_of_word == 1 & !usedTiles.Contains(clickedLabel.Name))
+            {
+                pos_x_y_2 = b.stringToChar(clickedLabel.Name);
+                consOrient = wordOrient(pos_x_y_1, pos_x_y_2);
+                valid = validation(pos_x_y_1, pos_x_y_2, consOrient);
+                if(valid == true)
+                {
+                    clickedLabel.Text = temp.Text;
+                    clickedLabel.Font = temp.Font;
+                    clickedLabel.BackColor = temp.BackColor;
+                    clickedLabel.BorderStyle = BorderStyle.FixedSingle;
+                    hand_tile_clicked = false;
+                    lenght_of_word++;
+                    newWord.Add(clickedLabel);
+                    this.Controls.Add(clickedLabel);
+                    clickedLabel.BringToFront();
+                }
+            }
+
+            else if (clickedLabel != null & hand_tile_clicked == true & lenght_of_word > 1 & !usedTiles.Contains(clickedLabel.Name))
+            {
+                pos_x_y = b.stringToChar(clickedLabel.Name);
+                valid = validation(pos_x_y_1, pos_x_y, consOrient);
+                if (valid == true)
+                {
+                    clickedLabel.Text = temp.Text;
+                    clickedLabel.Font = temp.Font;
+                    clickedLabel.BackColor = temp.BackColor;
+                    clickedLabel.BorderStyle = BorderStyle.FixedSingle;
+                    hand_tile_clicked = false;
+                    lenght_of_word++;
+                    newWord.Add(clickedLabel);
+                    this.Controls.Add(clickedLabel);
+                    clickedLabel.BringToFront();
+                }
+            }
+
+            else;
+        }
+
+
+        public void handTile_Click(object sender, EventArgs e)
+        {
+            var clickedLabel = (Label)sender;
+
+            if (clickedLabel != null & hand_tile_clicked == false & change == false)
+            {
+                temp.Text = clickedLabel.Text;
+                temp.Font = clickedLabel.Font;
+                clickedLabel.Visible = false;
+                hand_tile_clicked = true;
+            }
+
+            else if (clickedLabel != null & change == true)
+            {
+                clickedLabel.Text = "used";
+                clickedLabel.Visible = false;
+            }
+        } 
+
+        //w jakiej plaszczyznie jest slowo
+        public char wordOrient(int[] pos_x_y_1, int[] pos_x_y_2)
+        {
+            if (pos_x_y_1[0] == pos_x_y_2[0]) return 'x';
+
+            else if (pos_x_y_1[1] == pos_x_y_2[1]) return 'y';
+
+            else return 'a';
+        }
+
+        //sprawdzenie poprawnosci wpisana slowa
+        public bool validation(int[] pos_x_y_1, int[] pos_x_y_2, char consOrient)
+        {
+            if(pos_x_y_1[0] == pos_x_y_2[0] & consOrient == 'x') return true; // & Math.Abs(pos_x_y_1[1] - pos_x_y_2[1]) == 1
+
+            else if(pos_x_y_1[1] == pos_x_y_2[1] & consOrient == 'y') return true; // & Math.Abs(pos_x_y_1[0] - pos_x_y_2[0]) == 1
+
+            else return false;
+            //if(pos_x_y_1[0] == pos_x_y_2[0] & lenghtOfWord == 2)
+        }
+
+        List<string> previousWordsList = new List<string>();
+
+        public bool isValid()
+        {
+            List<string> wordsList = new List<string>();
+            
+
+            bool valid;
+            wordsList = b.createWordsFromTable();
+
+            valid = v.CheckValidation(wordsList);
+
+            if (valid)
+            {
+                if(player1.current_turn == true) player1_score += s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
+                else player2_score += s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
+                previousWordsList = wordsList.ToList();
+            }
+
+            if(player1.current_turn) lScorePlayer1.Text = player1_score.ToString();
+            else lScorePlayer2.Text = player2_score.ToString();
+            
+            if (valid == true) b.overwriteBoard();
+
+            else b.reloadBoard();
+
+            return valid;
+        }
+
+        private void accept_button_MouseClick(object sender, MouseEventArgs e)
+        {
+            bool valid = false;
+
+            foreach (Label item in newWord) b.boardFill(char.Parse(item.Text), item.Name);
+
+            valid = isValid();
+
+
+            if (player1.current_turn == true)
+            {
+                player1.current_turn = false;
+                player2.current_turn = true;
+
+                if(valid == true)
+                {
+                    foreach (Label item in player1Rack)
+                    {
+                        if (item.Visible == false) item.Text = "used";
+                    }
+                }
+
+            }
+
+            else
+            {
+                player1.current_turn = true;
+                player2.current_turn = false;
+
+                if(valid == true)
+                {
+                    foreach (Label item in player2Rack)
+                    {
+                        if (item.Visible == false) item.Text = "used";
+                    }
+                }
+
+            }
+
+            //swapPlayers();
+            
+            lenght_of_word = 0;
+            change = false;
+
+            if(valid == true)
+            {
+                word_counter++;
+
+                foreach (Label item in BoardLabels)
+                {
+                    foreach (Label newitem in newWord)
+                    {
+                        if (item.Location == newitem.Location)
+                        {
+                            item.Text = newitem.Text;
+                            item.Font = newitem.Font;
+                            item.BackColor = newitem.BackColor;
+                            item.BorderStyle = BorderStyle.FixedSingle;
+                            //b.boardFill(char.Parse(item.Text), item.Name);
+                            usedTiles.Add(item.Name);
+                        }
+                    }
+                }
+            }
+
+            foreach (Label label in newWord) this.Controls.Remove(label);
+            newWord.Clear();
+
+            turn(player1Rack, player2Rack);
+        }
+
+        private void change_button_Click(object sender, EventArgs e)
+        {
+            change = true;
+        }
+
+        private void reset_button_Click(object sender, EventArgs e)
+        {
+            foreach(Label label in newWord) this.Controls.Remove(label);
+            newWord.Clear();
+            lenght_of_word = 0;
+            hand_tile_clicked = false;
+
+            if(player1.current_turn == true)
+            {
+                foreach (Label item in player1Rack) item.Visible = true;
+            }
+
+            else
+            {
+                foreach (Label item in player2Rack) item.Visible = true;
+            }
         }
     }
 }
