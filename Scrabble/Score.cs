@@ -28,6 +28,7 @@ namespace Scrabble
         string[] BlueLetters = new string[] { "b", "g", "h", "j", "ł", "u" };
         string[] RedLetters = new string[] { "ą", "ć", "ę", "f", "ń", "ó", "ś", "ż", "ź" };
 
+        //podliczanie punkow za ruch
         public int countScorForPlayer(List<Label> newWord, List<Label> board, List<string> previousWordList, List<string> wordList)
         {
             int player_score = 0;
@@ -46,6 +47,7 @@ namespace Scrabble
                 if(!previousWordList.Contains(word)) new_words.Add(word);
             }
 
+            //zliczenie punkow za podstawione literki
             foreach(string word in new_words)
             {
                 for(int i = 0; i < word.Length; i++)
@@ -57,18 +59,20 @@ namespace Scrabble
                 }
             }
 
-            foreach(Label item in newWord)
+            //zliczenie punkow za bonusy na plansze
+            foreach (Label item in newWord)
             {
-                if (condYellow.Contains(item.Name) & YellowLetters.Contains(item.Text)) player_score += 1;
-                if (condGreen.Contains(item.Name) & GreenLetters.Contains(item.Text)) player_score += 2;
-                if (condBlue.Contains(item.Name) & BlueLetters.Contains(item.Text)) player_score += 3;
-                if (RedLetters.Contains(item.Name) & RedLetters.Contains(item.Text)) player_score += 5;
+                if (condYellow.Contains(item.Name) & YellowLetters.Contains(item.Text.ToLower())) player_score += 1;
+                if (condGreen.Contains(item.Name) & GreenLetters.Contains(item.Text.ToLower())) player_score += 2;
+                if (condBlue.Contains(item.Name) & BlueLetters.Contains(item.Text.ToLower())) player_score += 3;
+                if (RedLetters.Contains(item.Name) & RedLetters.Contains(item.Text.ToLower())) player_score += 5;
             }
 
-            foreach(Label item in newWord)
+            //zliczenie punkow za bonusy x2 i x3
+            foreach (Label item in newWord)
             {
                 if (condDouble.Contains(item.Name)) player_score = player_score * 2;
-                if (condTriple.Contains(item.Name)) player_score = player_score * 2;
+                if (condTriple.Contains(item.Name)) player_score = player_score * 3;
             }
 
             return player_score;

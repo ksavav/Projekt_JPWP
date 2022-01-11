@@ -19,6 +19,7 @@ namespace Scrabble
 
         }
 
+        //uzupenianie tablicy charow
         public void boardFill(char letter, string loc)
         {
             int[] pos_x_y = new int[2];
@@ -56,6 +57,7 @@ namespace Scrabble
             return pos_x_y;
         }
 
+        //sprawdzenie czy nie jest za malo literek
         public bool gameOver(char[] letters_pool)
         {
             int counter = 0;
@@ -69,6 +71,7 @@ namespace Scrabble
             else return false;
         }
 
+        //podzielenie tablicy planszy na pojedyncze slowa
         public List<string> createWordsFromTable()
         {
             List<string> words = new List<string>();
@@ -128,6 +131,7 @@ namespace Scrabble
             return words;
         }
 
+        //wczytanie na nowo tablicy planszy po bledny slowie
         public void reloadBoard()
         {
             for(int i = 0; i < cols; i++)
@@ -139,6 +143,7 @@ namespace Scrabble
             }
         }
 
+        //nadpisanie tablicy planszy po poprawnym slowie
         public void overwriteBoard()
         {
             for (int i = 0; i < cols; i++)

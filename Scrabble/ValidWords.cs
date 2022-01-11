@@ -18,6 +18,7 @@ namespace Scrabble
             this.LoadWords();
         }
 
+        //wczystanie slownika do listy z pliku txt
         private void LoadWords()
         {
             Words = new List<string>();
@@ -29,6 +30,7 @@ namespace Scrabble
             }
         }
 
+        //sprawdzenie poprawnosci slowa
         public bool CheckValidation(List<string> words_on_board)
         {
             foreach(var word in words_on_board)
@@ -38,7 +40,7 @@ namespace Scrabble
                     return false;
                 }
             }
-
+            
             return true;
         }
     }

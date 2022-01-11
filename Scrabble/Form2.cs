@@ -12,6 +12,8 @@ namespace Scrabble
 {
     public partial class Menu : Form
     {
+        string name1 = "Gracz 1";
+        string name2 = "Gracz 2";
         public Menu()
         {
             InitializeComponent();
@@ -49,10 +51,18 @@ namespace Scrabble
 
         private void btnStart_MouseClick(object sender, MouseEventArgs e)
         {
-            this.Hide();
-            Scrabble scrabble = new Scrabble();
-            scrabble.ShowDialog();
-            this.Close();
+            //this.Hide();
+            //Scrabble scrabble = new Scrabble(name1, name2);
+            //scrabble.ShowDialog();
+            //this.Close();
+            btnStart.Visible = false;
+            btnExit.Visible = false;
+            btnRules.Visible = false;
+            label1.Visible = true;
+            label2.Visible = true;
+            textBox1.Visible = true;
+            textBox2.Visible = true;
+            button1.Visible = true;
         }
 
         private void btnRules_MouseClick(object sender, MouseEventArgs e)
@@ -76,6 +86,16 @@ namespace Scrabble
             btnRules.Visible = true;
             btnBackToMenu.Visible = false;
             BackgroundImage = Properties.Resources.menu_border_new;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            name1 = textBox1.Text;
+            name2 = textBox2.Text;
+            Scrabble scrabble = new Scrabble(name1, name2);
+            scrabble.ShowDialog();
+            this.Close();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Scrabble
     public partial class Scrabble : Form
     {
         //zmienne globalne
-        public static char[] letters_pool = { 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'Ą', 'B', 'B', 'C', 'C', 'C', 'Ć', 'D', 'D', 'D', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'Ę', 'F', 'G', 'G', 
+        public static char[] letters_pool = { 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'Ą', 'B', 'B', 'C', 'C', 'C', 'Ć', 'D', 'D', 'D', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'Ę', 'F', 'G', 'G',
             'H', 'H', 'I', 'I', 'I', 'I', 'I', 'I', 'I', 'I', 'J', 'J', 'K', 'K', 'K', 'L', 'L', 'L', 'Ł', 'Ł', 'M', 'M', 'M', 'N', 'N', 'N', 'N', 'N', 'Ń', 'O', 'O', 'O', 'O', 'O', 'O',
             'Ó', 'P', 'P', 'P', 'R', 'R', 'R', 'R', 'S', 'S', 'S', 'S', 'Ś', 'T', 'T', 'T', 'U', 'U', 'W', 'W', 'W', 'W', 'Y', 'Y', 'Y', 'Y', 'Z', 'Z', 'Z', 'Z', 'Z', 'Ź', 'Ż' };
 
@@ -26,7 +26,7 @@ namespace Scrabble
         ValidWords v = new ValidWords();
         Player player1 = new Player(letters_pool);
         Player player2 = new Player(letters_pool);
-        Score s = new Score(); 
+        Score s = new Score();
         List<Label> BoardLabels = new List<Label>();
         bool game_over = false;
         bool hand_tile_clicked = false;
@@ -35,11 +35,19 @@ namespace Scrabble
         int word_counter = 0;
         int player1_score = 0;
         int player2_score = 0;
+        string player1_name = "";
+        string player2_name = "";
+        List<string> eventLogTable = new List<string>();
         
 
-        public Scrabble()
+
+        public Scrabble(string name1, string name2)
         {
+            player1_name = name1;
+            player2_name = name2;
             InitializeComponent();
+            label10.Text = name1 + ":";
+            label11.Text = name2 + ":";
             letters_pool = player1.fill_hand(letters_pool);
             letters_pool = player2.fill_hand(letters_pool);
 
@@ -50,7 +58,7 @@ namespace Scrabble
         List<Label> player2Rack = new List<Label>();
         List<Label> newWord = new List<Label>();
 
-
+        //poczatek gry
         public void game(Player player1, Player player2)
         {
             whoStarts(player1, player2);
@@ -66,12 +74,25 @@ namespace Scrabble
             turn(player1Rack, player2Rack);
         }
 
+        //metoda obsługujaca tury
         public void turn(List<Label> player1Rack, List<Label> player2Rack)
         {
             if(b.gameOver(letters_pool) == false & player1.isGameOver() == false & player2.isGameOver() == false) game_over = false;
             else game_over = true;
 
-            if(game_over == true) this.Close();
+            if (game_over == true)
+            {
+                if ((player1_score > player2_score))
+                    MessageBox.Show("Wygrał(a) " + player1_name + " zdobywając " + player1_score + " punktów!", "Koniec Gry");
+
+                else if((player2_score > player1_score))
+                    MessageBox.Show("Wygrał(a) " + player2_name + " zdobywając " + player2_score + " punktów!", "Koniec Gry");
+
+                else
+                    MessageBox.Show("Remis");
+
+                this.Close();
+            }
 
             if (game_over == false)
             {
@@ -81,7 +102,7 @@ namespace Scrabble
                     colorTilesFromHand(player1Rack);
                     hideRack(player1Rack, player2Rack);
                     placeRack(player1Rack, player2Rack);
-                    whose_turn.Text = "Ruch gracza 1";
+                    whose_turn.Text = player1_name + " ma ruch";
                     //placeTilesFromLetters(player1Rack);
                 }
 
@@ -91,7 +112,7 @@ namespace Scrabble
                     colorTilesFromHand(player2Rack);
                     hideRack(player1Rack, player2Rack);
                     placeRack(player1Rack, player2Rack);
-                    whose_turn.Text = "Ruch gracza 2";
+                    whose_turn.Text = player2_name + " ma ruch";
                     //placeTilesFromLetters(player2Rack);
                 }
             }
@@ -261,6 +282,7 @@ namespace Scrabble
             return list;
         }
 
+        //kolorowanie literek na rece
         public void colorTilesFromHand(List<Label> list)
         {
             var YellowLetters = new string[] { "A", "E", "I", "N", "O", "R", "S", "W", "Z" };
@@ -309,6 +331,7 @@ namespace Scrabble
 
         //eventy
 
+        //ukrycie reki gracza
         public void hideRack(List<Label> player1Rack, List<Label> player2Rack)
         {
             if(player1.current_turn == true)
@@ -328,6 +351,7 @@ namespace Scrabble
             }
         }
 
+        //ustawienie widocznosci reki gracza
         public void placeRack(List<Label> player1Rack, List<Label> player2Rack)
         {
             if (player1.current_turn == true)
@@ -352,6 +376,7 @@ namespace Scrabble
         int[] pos_x_y_2 = new int[2];
         List<string> usedTiles = new List<string>();
 
+        //klikanie pol na planszy
         public void boardTile_Click(object sender, EventArgs e)
         {
             var clickedLabe = (Label)sender;
@@ -425,7 +450,7 @@ namespace Scrabble
             }
         }
 
-
+        //klikanie literek na rece
         public void handTile_Click(object sender, EventArgs e)
         {
             var clickedLabel = (Label)sender;
@@ -468,6 +493,7 @@ namespace Scrabble
 
         List<string> previousWordsList = new List<string>();
 
+        //sprawdzanie poprawnosci slowa
         public bool isValid()
         {
             List<string> wordsList = new List<string>();
@@ -481,20 +507,24 @@ namespace Scrabble
 
             int scoreThisTurn = 0;
 
+            string eventLog = "";
+
             if (valid)
             {
                 if (player1.current_turn == true & lenght_of_word != 0)
                 {
                     scoreThisTurn = s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
                     player1_score += scoreThisTurn;
-                    eventLabel.Text = eventLabel.Text + "\nGracz1 zdobył " + scoreThisTurn.ToString() + " punktów!";
+                    eventLog = player1_name + " zdobył(a) " + scoreThisTurn.ToString() + " punktów(y)!";
+                    showMessage(eventLog);
                 }
 
                 else if (player1.current_turn == false & lenght_of_word != 0)
                 {
                     scoreThisTurn = s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
                     player2_score += scoreThisTurn;
-                    eventLabel.Text = eventLabel.Text + "\nGracz2 zdobył " + scoreThisTurn.ToString() + " punktów!";
+                    eventLog = player2_name + " zdobył(a) " + scoreThisTurn.ToString() + " punktów(y)!";
+                    showMessage(eventLog);
                 }
                 //player2_score += s.countScorForPlayer(newWord, BoardLabels, previousWordsList, wordsList);
                 previousWordsList = wordsList.ToList();
@@ -502,8 +532,8 @@ namespace Scrabble
 
             if (!valid)
             {
-                if (player1.current_turn == true) eventLabel.Text = eventLabel.Text + "\nGracz1 traci ruch!";
-                else eventLabel.Text = eventLabel.Text + "\nGracz2 traci ruch!";
+                if (player1.current_turn == true) { eventLog = player1_name + " traci ruch!"; showMessage(eventLog); }
+                else { eventLog = player2_name + " traci ruch!"; showMessage(eventLog); }
             }
 
             if(player1.current_turn) lScorePlayer1.Text = player1_score.ToString();
@@ -516,6 +546,7 @@ namespace Scrabble
             return valid;
         }
 
+        //akceptowanie slowa/pas
         private void accept_button_MouseClick(object sender, MouseEventArgs e)
         {
             bool valid = false;
@@ -536,7 +567,8 @@ namespace Scrabble
                         if (item.Visible == false) counter++;
                     }
 
-                    eventLabel.Text = eventLabel.Text + "\nGracz 1 wymienia " + counter + " literke(i)!";
+                    string eventLog = player1_name + " wymienia " + counter + " literke(i)!";
+                    showMessage(eventLog);
                 }
 
                 else
@@ -546,7 +578,8 @@ namespace Scrabble
                         if (item.Visible == false) counter++;
                     }
 
-                    eventLabel.Text = eventLabel.Text + "\nGracz 2 wymienia " + counter + " literke(i)!";
+                    string eventLog = player2_name + " wymienia " + counter + " literke(i)!";
+                    showMessage(eventLog);
                 }
             }
 
@@ -558,7 +591,8 @@ namespace Scrabble
                 if (lenght_of_word == 0 & change == false)
                 {
                     player1.passCounter();
-                    eventLabel.Text = eventLabel.Text + "\nGracz 1 pasuje!";
+                    string eventLog = player1_name + " pasuje!";
+                    showMessage(eventLog);
                 }
 
                 if(valid == true)
@@ -579,7 +613,8 @@ namespace Scrabble
                 if (lenght_of_word == 0 & change == false)
                 {
                     player2.passCounter();
-                    eventLabel.Text = eventLabel.Text + "\nGracz 2 pasuje!";
+                    string eventLog = player2_name + " pasuje!";
+                    showMessage(eventLog);
                 }
 
                 if (valid == true)
@@ -626,11 +661,13 @@ namespace Scrabble
             turn(player1Rack, player2Rack);
         }
 
+        //przycisk do wymiany literek
         private void change_button_Click(object sender, EventArgs e)
         {
             change = true;
         }
 
+        //przycisk resetu
         private void reset_button_Click(object sender, EventArgs e)
         {
             foreach(Label label in newWord) this.Controls.Remove(label);
@@ -647,6 +684,30 @@ namespace Scrabble
             else
             {
                 foreach (Label item in player2Rack) item.Visible = true;
+            }
+        }
+
+        //wyswietlanie informacji w eventlogu
+        public void showMessage(string eventLog)
+        {
+            eventLogTable.Add(eventLog);
+            String[] str = eventLogTable.ToArray();
+            eventLabel.Text = "";
+
+            if (str.Length < 13)
+            {
+                for (int i = 0; i < str.Length; i++)
+                {
+                    eventLabel.Text += "\n" + str[i];
+                }
+            }
+
+            else
+            {
+                for(int i = str.Length - 13; i < str.Length; i++)
+                {
+                    eventLabel.Text += "\n" + str[i];
+                }
             }
         }
     }

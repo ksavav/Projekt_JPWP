@@ -25,6 +25,7 @@ namespace Scrabble
             //fill_hand(letters_pool);
         }
 
+        //wylosowanie poczatkowych literek na rece gracza
         public char[] fill_hand(char[] letters_pool)
         {
             Random rnd = new Random();
@@ -54,7 +55,7 @@ namespace Scrabble
             return letters_pool;
         }
         
-
+        //uzupelnienie reki gracza
         public char[] refill_hand(List<Label> playerRack, char[] letters_pool)
         {
 
@@ -94,11 +95,13 @@ namespace Scrabble
             return letters_pool;
         }
 
+        //podliczanie pasow
         public int passCounter()
         {
             return pass++;
         }
 
+        //sprawdzenie czy gra nie zakonczyla sie przez pasy
         public bool isGameOver()
         {
             if(pass >= 3) return true;
