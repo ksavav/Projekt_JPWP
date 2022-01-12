@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Scrabble;
 
-//TODO
-//popup windows
+
 
 namespace Scrabble
 {
@@ -40,7 +39,11 @@ namespace Scrabble
         List<string> eventLogTable = new List<string>();
         
 
-
+        /// <summary>
+        /// Konstruktor przyjmujący nazwy graczy z menu
+        /// </summary>
+        /// <param name="name1"></param>
+        /// <param name="name2"></param>
         public Scrabble(string name1, string name2)
         {
             player1_name = name1;
@@ -58,7 +61,11 @@ namespace Scrabble
         List<Label> player2Rack = new List<Label>();
         List<Label> newWord = new List<Label>();
 
-        //poczatek gry
+        /// <summary>
+        /// Poczatek gry
+        /// </summary>
+        /// <param name="player1"></param>
+        /// <param name="player2"></param>
         public void game(Player player1, Player player2)
         {
             whoStarts(player1, player2);
@@ -74,7 +81,11 @@ namespace Scrabble
             turn(player1Rack, player2Rack);
         }
 
-        //metoda obsługujaca tury
+        /// <summary>
+        /// Metoda obsługujaca tury
+        /// </summary>
+        /// <param name="player1Rack"></param>
+        /// <param name="player2Rack"></param>
         public void turn(List<Label> player1Rack, List<Label> player2Rack)
         {
             if(b.gameOver(letters_pool) == false & player1.isGameOver() == false & player2.isGameOver() == false) game_over = false;
@@ -118,7 +129,11 @@ namespace Scrabble
             }
         }
 
-        //kto startuje?
+        /// <summary>
+        /// Kto startuje?
+        /// </summary>
+        /// <param name="player1"></param>
+        /// <param name="player2"></param>
         public void whoStarts(Player player1, Player player2)
         {
             Random rnd = new Random();
@@ -139,7 +154,10 @@ namespace Scrabble
             }
         }
 
-        //string posiadajacy literki na rece gracza
+        /// <summary>
+        /// String posiadajacy literki na rece gracza
+        /// </summary>
+        /// <param name="player"></param>
         public void literki(Player player)
         {
             string text = "";
@@ -149,7 +167,11 @@ namespace Scrabble
             }
         }
 
-        //tworzenie planszy
+        /// <summary>
+        /// tworzenie planszy
+        /// </summary>
+        /// <param name="BoardLabels"></param>
+        /// <returns></returns>
         public List<Label> createBoard(List<Label> BoardLabels)
         {
             for(int i = 0; i < 15; i++)
@@ -187,8 +209,11 @@ namespace Scrabble
 
             return BoardLabels;
         }
-        
-        //wyplucie planszy do Formsa
+
+        /// <summary>
+        /// Wyplucie planszy do Formsa
+        /// </summary>
+        /// <param name="BoardLabels"></param>
         public void placeTiles(List<Label> BoardLabels)
         {
             foreach (Label item in BoardLabels)
@@ -198,7 +223,10 @@ namespace Scrabble
             }
         }
 
-        //kolorowanie odpowiednich pol na planszy
+        /// <summary>
+        /// kolorowanie odpowiednich pol na planszy
+        /// </summary>
+        /// <param name="BoardLabels"></param>
         public void colorTiles(List<Label> BoardLabels)
         {
             var condRed = new string[] { "0x0", "14x0", "0x14", "14x14", "0x7", "1x6", "1x8", "7x0", "6x1", "8x1", "14x7", "13x6", "13x8", "7x14", "6x13", "8x13", "7x7" };
@@ -255,7 +283,11 @@ namespace Scrabble
             }
         }
 
-        //Tworzenie reki gracza
+        /// <summary>
+        /// Tworzenie reki gracza
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public List<Label> createTilesFromLetters(Player player)
         {
             List<Label> list = new List<Label>();
@@ -282,7 +314,10 @@ namespace Scrabble
             return list;
         }
 
-        //kolorowanie literek na rece
+        /// <summary>
+        /// kolorowanie literek na rece
+        /// </summary>
+        /// <param name="list"></param>
         public void colorTilesFromHand(List<Label> list)
         {
             var YellowLetters = new string[] { "A", "E", "I", "N", "O", "R", "S", "W", "Z" };
@@ -314,7 +349,10 @@ namespace Scrabble
             }
         }
 
-        //wyplucie reki do formsa
+        /// <summary>
+        /// Wyplucie reki do Formsa
+        /// </summary>
+        /// <param name="list"></param>
         public void placeTilesFromLetters(List<Label> list)
         {
             foreach (Label item in list)
@@ -324,14 +362,13 @@ namespace Scrabble
             }
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-
         //eventy
 
-        //ukrycie reki gracza
+        /// <summary>
+        /// Ukrycie reki gracza
+        /// </summary>
+        /// <param name="player1Rack"></param>
+        /// <param name="player2Rack"></param>
         public void hideRack(List<Label> player1Rack, List<Label> player2Rack)
         {
             if(player1.current_turn == true)
@@ -351,7 +388,11 @@ namespace Scrabble
             }
         }
 
-        //ustawienie widocznosci reki gracza
+        /// <summary>
+        /// Ustawienie widocznosci reki gracza
+        /// </summary>
+        /// <param name="player1Rack"></param>
+        /// <param name="player2Rack"></param>
         public void placeRack(List<Label> player1Rack, List<Label> player2Rack)
         {
             if (player1.current_turn == true)
@@ -376,7 +417,11 @@ namespace Scrabble
         int[] pos_x_y_2 = new int[2];
         List<string> usedTiles = new List<string>();
 
-        //klikanie pol na planszy
+        /// <summary>
+        /// Klikanie pol na planszy
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void boardTile_Click(object sender, EventArgs e)
         {
             var clickedLabe = (Label)sender;
@@ -450,7 +495,11 @@ namespace Scrabble
             }
         }
 
-        //klikanie literek na rece
+        /// <summary>
+        /// Klikanie literek na rece
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void handTile_Click(object sender, EventArgs e)
         {
             var clickedLabel = (Label)sender;
@@ -468,9 +517,14 @@ namespace Scrabble
                 clickedLabel.Text = "used";
                 clickedLabel.Visible = false;
             }
-        } 
+        }
 
-        //w jakiej plaszczyznie jest slowo
+        /// <summary>
+        /// W jakiej plaszczyznie jest slowo
+        /// </summary>
+        /// <param name="pos_x_y_1"></param>
+        /// <param name="pos_x_y_2"></param>
+        /// <returns>Płaszczyzna w której układane jest słowo</returns>
         public char wordOrient(int[] pos_x_y_1, int[] pos_x_y_2)
         {
             if (pos_x_y_1[0] == pos_x_y_2[0]) return 'x';
@@ -480,7 +534,13 @@ namespace Scrabble
             else return 'a';
         }
 
-        //sprawdzenie poprawnosci wpisana slowa
+        /// <summary>
+        /// Sprawdzenie poprawnosci wpisana slowa
+        /// </summary>
+        /// <param name="pos_x_y_1"></param>
+        /// <param name="pos_x_y_2"></param>
+        /// <param name="consOrient"></param>
+        /// <returns>Czy wpisane słowo jest poprawnie wpisane</returns>
         public bool validation(int[] pos_x_y_1, int[] pos_x_y_2, char consOrient)
         {
             if(pos_x_y_1[0] == pos_x_y_2[0] & consOrient == 'x') return true; // & Math.Abs(pos_x_y_1[1] - pos_x_y_2[1]) == 1
@@ -493,7 +553,10 @@ namespace Scrabble
 
         List<string> previousWordsList = new List<string>();
 
-        //sprawdzanie poprawnosci slowa
+        /// <summary>
+        /// Sprawdzanie poprawnosci slowa
+        /// </summary>
+        /// <returns>Czy wpisane słowo znajduje się w sjp oraz czy nie psuje pozostałych słów</returns>
         public bool isValid()
         {
             List<string> wordsList = new List<string>();
@@ -546,7 +609,11 @@ namespace Scrabble
             return valid;
         }
 
-        //akceptowanie slowa/pas
+        /// <summary>
+        /// Akceptowanie slowa/pas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void accept_button_MouseClick(object sender, MouseEventArgs e)
         {
             bool valid = false;
@@ -661,13 +728,21 @@ namespace Scrabble
             turn(player1Rack, player2Rack);
         }
 
-        //przycisk do wymiany literek
+        /// <summary>
+        /// Przycisk do wymiany literek
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void change_button_Click(object sender, EventArgs e)
         {
             change = true;
         }
 
-        //przycisk resetu
+        /// <summary>
+        /// Przycisk resetu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void reset_button_Click(object sender, EventArgs e)
         {
             foreach(Label label in newWord) this.Controls.Remove(label);
@@ -687,7 +762,10 @@ namespace Scrabble
             }
         }
 
-        //wyswietlanie informacji w eventlogu
+        /// <summary>
+        /// Wyswietlanie informacji w eventlogu
+        /// </summary>
+        /// <param name="eventLog"></param>
         public void showMessage(string eventLog)
         {
             eventLogTable.Add(eventLog);

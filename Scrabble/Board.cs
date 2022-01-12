@@ -19,7 +19,11 @@ namespace Scrabble
 
         }
 
-        //uzupenianie tablicy charow
+        /// <summary>
+        /// Uzupenianie tablicy charow
+        /// </summary>
+        /// <param name="letter"></param>
+        /// <param name="loc"></param>
         public void boardFill(char letter, string loc)
         {
             int[] pos_x_y = new int[2];
@@ -30,6 +34,11 @@ namespace Scrabble
             board_tabel[pos_x_y[0], pos_x_y[1]] = letter;
         }
 
+        /// <summary>
+        /// Przekonwertowanie nazwy ze stringa na inty
+        /// </summary>
+        /// <param name="loc"></param>
+        /// <returns>Przekonwertowana nazwa ze stringa na tablice intów</returns>
         public int[] stringToChar(string loc)
         {
             bool flag = false;
@@ -57,7 +66,11 @@ namespace Scrabble
             return pos_x_y;
         }
 
-        //sprawdzenie czy nie jest za malo literek
+        /// <summary>
+        /// Sprawdzenie czy nie jest za mało literek
+        /// </summary>
+        /// <param name="letters_pool"></param>
+        /// <returns>Czy gra się skończyła?</returns>
         public bool gameOver(char[] letters_pool)
         {
             int counter = 0;
@@ -71,7 +84,10 @@ namespace Scrabble
             else return false;
         }
 
-        //podzielenie tablicy planszy na pojedyncze slowa
+        /// <summary>
+        /// Podzielenie tablicy planszy na pojedyncze słowa
+        /// </summary>
+        /// <returns>Słowa z tablicy</returns>
         public List<string> createWordsFromTable()
         {
             List<string> words = new List<string>();
@@ -131,7 +147,9 @@ namespace Scrabble
             return words;
         }
 
-        //wczytanie na nowo tablicy planszy po bledny slowie
+        /// <summary>
+        /// Wczytanie na nowo tablicy planszy po bledny słowie
+        /// </summary>
         public void reloadBoard()
         {
             for(int i = 0; i < cols; i++)
@@ -143,7 +161,9 @@ namespace Scrabble
             }
         }
 
-        //nadpisanie tablicy planszy po poprawnym slowie
+        /// <summary>
+        /// Nadpisanie tablicy planszy po poprawnym słowie
+        /// </summary>
         public void overwriteBoard()
         {
             for (int i = 0; i < cols; i++)

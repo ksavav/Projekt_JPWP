@@ -13,6 +13,7 @@ namespace Scrabble
         {
 
         }
+
         string[] condYellow = new string[] { "2x7", "3x6", "4x5", "5x4", "6x3", "7x2", "8x3", "9x4", "10x5", "11x6", "12x7", "11x8", "10x9", "9x10", "8x11", "7x12", "6x11",
                 "5x10", "4x9", "3x8" };
         string[] condGreen = new string[] { "5x0", "4x1", "3x2", "2x3", "1x4", "0x5", "9x0", "10x1", "11x2", "12x3", "13x4", "14x5", "0x9", "1x10", "2x11", "3x12", "4x13",
@@ -28,7 +29,14 @@ namespace Scrabble
         string[] BlueLetters = new string[] { "b", "g", "h", "j", "ł", "u" };
         string[] RedLetters = new string[] { "ą", "ć", "ę", "f", "ń", "ó", "ś", "ż", "ź" };
 
-        //podliczanie punkow za ruch
+        /// <summary>
+        /// Podliczanie punkow za ruch
+        /// </summary>
+        /// <param name="newWord"></param>
+        /// <param name="board"></param>
+        /// <param name="previousWordList"></param>
+        /// <param name="wordList"></param>
+        /// <returns>Uzyskane punkty za ruch</returns>
         public int countScorForPlayer(List<Label> newWord, List<Label> board, List<string> previousWordList, List<string> wordList)
         {
             int player_score = 0;

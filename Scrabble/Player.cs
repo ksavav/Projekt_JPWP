@@ -25,7 +25,11 @@ namespace Scrabble
             //fill_hand(letters_pool);
         }
 
-        //wylosowanie poczatkowych literek na rece gracza
+        /// <summary>
+        /// Wylosowanie poczatkowych literek na rece gracza
+        /// </summary>
+        /// <param name="letters_pool"></param>
+        /// <returns></returns>
         public char[] fill_hand(char[] letters_pool)
         {
             Random rnd = new Random();
@@ -54,8 +58,13 @@ namespace Scrabble
 
             return letters_pool;
         }
-        
-        //uzupelnienie reki gracza
+
+        /// <summary>
+        /// Uzupelnienie reki gracza
+        /// </summary>
+        /// <param name="playerRack"></param>
+        /// <param name="letters_pool"></param>
+        /// <returns>Zwraca pule liter zmniejszoną o te które zostały wylosowane</returns>
         public char[] refill_hand(List<Label> playerRack, char[] letters_pool)
         {
 
@@ -95,13 +104,19 @@ namespace Scrabble
             return letters_pool;
         }
 
-        //podliczanie pasow
+        /// <summary>
+        /// Podliczanie pasow
+        /// </summary>
+        /// <returns>Ilość pasów danego gracza</returns>
         public int passCounter()
         {
             return pass++;
         }
 
-        //sprawdzenie czy gra nie zakonczyla sie przez pasy
+        /// <summary>
+        /// Sprawdzenie czy gra nie zakonczyla sie przez pasy
+        /// </summary>
+        /// <returns>Czy gra się zakończyłą?</returns>
         public bool isGameOver()
         {
             if(pass >= 3) return true;
