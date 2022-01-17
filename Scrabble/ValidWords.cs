@@ -39,14 +39,19 @@ namespace Scrabble
         /// <returns>Czy wszystko na planszy jest ok?</returns>
         public bool CheckValidation(List<string> words_on_board)
         {
-            foreach(var word in words_on_board)
+            if (words_on_board.ToArray().Length != 0)
             {
-                if (!Words.Contains(word))
+                foreach (var word in words_on_board)
                 {
-                    return false;
+                    if (!Words.Contains(word))
+                    {
+                        return false;
+                    }
                 }
             }
-            
+
+            else return false;
+
             return true;
         }
     }

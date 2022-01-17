@@ -111,7 +111,7 @@ namespace Scrabble
                         word_lenght = 0;
                     }
 
-                    if(board_tabel[j, i] == '\0' & word_lenght <= 1)
+                    if((board_tabel[j, i] == '\0' & word_lenght <= 1) || (board_tabel[j, i] != '\0' & word_lenght <= 1 & j == 14))
                     {
                         new_word = "";
                         word_lenght = 0;
@@ -123,20 +123,20 @@ namespace Scrabble
             {
                 for (int j = 0; j < rows; j++)
                 {
-                    if ((board_tabel[i, j] != '\0') || (board_tabel[i, j] != '\0' & word_lenght > 1 & j == 14))
+                    if (board_tabel[i, j] != '\0')
                     {
                         word_lenght++;
                         new_word = new_word + board_tabel[i, j].ToString().ToLowerInvariant();
                     }
 
-                    if (board_tabel[i, j] == '\0' & word_lenght > 1)
+                    if ((board_tabel[i, j] == '\0' & word_lenght > 1) || (board_tabel[i, j] != '\0' & word_lenght > 1 & j == 14))
                     {
                         words.Add(new_word);
                         new_word = "";
                         word_lenght = 0;
                     }
 
-                    if (board_tabel[i, j] == '\0' & word_lenght <= 1)
+                    if ((board_tabel[i, j] == '\0' & word_lenght <= 1) || (board_tabel[i, j] != '\0' & word_lenght <= 1 & j == 14))
                     {
                         new_word = "";
                         word_lenght = 0;
