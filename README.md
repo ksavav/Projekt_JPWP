@@ -37,7 +37,7 @@ On the middle right side is EVENTLOG:
 
 EVENTLOG stored up to 13 newest events (points for the new word, how many letters did you replace, if you passed or if you created the word that is not included in the dictionary).
 
-Below the board, there is the rack that stores the player's rack.
+Below the board, there is the rack that stores the player's lettes.
 
 There is no drag and drop; players put the letters on board by clicking the letter on the rack and then clicking the desired tile on board.
 
