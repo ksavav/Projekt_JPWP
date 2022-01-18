@@ -30,3 +30,17 @@ In the right upper corner there is SCORE BOARD:
 On the middle right side is EVENTLOG:
 
 ![image](https://user-images.githubusercontent.com/89656360/149999317-e3dba1ec-1a29-444c-ae58-9e2ac7719aea.png)
+
+EVENTLOG stored up to 13 newest event (points for new word, how many letters did you replace, if u passed or if you created word that is not included in the dictionary)
+
+Below the board there is rack that store player's rack.
+
+There is not drag and drop; players puts the letters on board by clicking letter on the rack and then cliking desired tile on board. 
+
+On the right side of the player rack there are 3 buttons.
+
+Player can accept the word by pressing "Zaakceptuj" butten. If player made a mistek, player can press "Reset" button. If player want to replece letters on the rack, there is "Wymiana" button. After pressing "Wymiana" button, player can press up to 7 letters (full rack).
+
+Game is ended when in the letters pool will remain 4 or less letters.
+
+![image](https://user-images.githubusercontent.com/89656360/150002053-5b7ef3ab-ff48-4a65-9e83-3e9e22583c9e.png)
