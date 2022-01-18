@@ -17,11 +17,17 @@ On the center of the window are 7 diffrent types of tiles.
 
 White - do nothing
 Yellow - double the points for yellow letters ("a", "e", "i", "n", "o", "r", "s", "w", "z")
+
 Green - double the points for green letters ("c", "d", "k", "l", "m", "p", "t", "y")
+
 Blue - double the points for blue letters ("b", "g", "h", "j", "ł", "u")
+
 Red - double the points for red letters ("ą", "ć", "ę", "f", "ń", "ó", "ś", "ż", "ź"), mostly polish letters
+
 x2 - double the points for new word
+
 x3 - triple the points for new word
+
 
 In the right upper corner there is SCORE BOARD:
 
