@@ -12,7 +12,7 @@ After inserting names and pressing "Zaczynamy!" button, this window will be clos
 
 ![image](https://user-images.githubusercontent.com/89656360/149998479-ec9e7054-5606-42be-9fba-8dd0c621668b.png)
 
-On the center of the window are 7 different types of tiles.
+On the center of the window is the board with 7 different types of tiles.
 
 White - do nothing Yellow - double the points for yellow letters ("a", "e", "i", "n", "o", "r", "s", "w", "z")
 
