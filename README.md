@@ -14,7 +14,9 @@ After inserting names and pressing "Zaczynamy!" button, this window will be clos
 
 On the center of the window is the board with 7 different types of tiles.
 
-White - do nothing Yellow - double the points for yellow letters ("a", "e", "i", "n", "o", "r", "s", "w", "z")
+White - do nothing 
+
+Yellow - double the points for yellow letters ("a", "e", "i", "n", "o", "r", "s", "w", "z")
 
 Green - double the points for green letters ("c", "d", "k", "l", "m", "p", "t", "y")
 
